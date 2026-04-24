@@ -33,27 +33,24 @@ FamilySync/
 
 ---
 
-## ⚙️ Kurulum (VS Code)
+## Kurulum (VS Code)
 
 ### 1. Gereksinimler
 - **JDK 17+** — https://adoptium.net
 - **VS Code** + **Extension Pack for Java** (Microsoft)
 
-### 2. Gson Kütüphanesini İndir
-[gson-2.10.1.jar](https://repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar) dosyasını indir ve `lib/` klasörüne koy.
-
-### 3. VS Code'da Aç
+### 2. VS Code'da Aç
 ```
 File → Open Folder → FamilySync klasörünü seç
 ```
 
-### 4. Çalıştır
+### 3. Çalıştır
 - `F5` tuşuna bas → **"FamilySync - Çalıştır"** konfigürasyonunu seç
 - Veya `src/Main.java` dosyasını aç → sağ üstteki ▶ butonuna tıkla
 
 ---
 
-## 🚀 Demo Giriş Bilgileri
+##  Demo Giriş Bilgileri
 
 | Rol | Kullanıcı Adı | Şifre |
 |-----|--------------|-------|
@@ -64,7 +61,7 @@ File → Open Folder → FamilySync klasörünü seç
 
 ---
 
-## 🔧 OOP Prensipleri
+##  OOP Prensipleri
 
 | Prensip | Uygulama |
 |---------|----------|
@@ -75,23 +72,23 @@ File → Open Folder → FamilySync klasörünü seç
 
 ---
 
-## 📋 Özellikler
+##  Özellikler
 
 ### Ebeveyn
-- ✅ Kendi görevlerini ekle/sil
-- ✅ Takvim etkinliği ekle
-- ✅ Çocuklara görev ata
-- ✅ Çocukların görev durumunu izle
+- Kendi görevlerini ekle/sil
+-  Takvim etkinliği ekle
+- Çocuklara görev ata
+- Çocukların görev durumunu izle
 
 ### Çocuk
-- ✅ Kendi görevlerini ekle
-- ✅ Ebeveynden gelen görevleri gör
-- ✅ Görevleri tamamlandı işaretle
-- ✅ Takvim etkinliği ekle
+-  Kendi görevlerini ekle
+-  Ebeveynden gelen görevleri gör
+- Görevleri tamamlandı işaretle
+-  Takvim etkinliği ekle
 
 ---
 
-## 💾 Veri Kalıcılığı
+## Veri Kalıcılığı
 
 Tüm veriler `data/users.json` dosyasına Gson ile JSON formatında kaydedilir.
 Uygulama her kapanışta otomatik kaydeder, açılışta otomatik yükler.
