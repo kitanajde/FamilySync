@@ -1,0 +1,28 @@
+{
+  "parents": [
+    {
+      "type": "parent",
+      "id": "1777018485471382",
+      "username": "ebeveyn",
+      "password": "1234",
+      "fullName": "Ayşe Yılmaz",
+      "childrenIds": ["1777018485475516"],
+      "tasks": [],
+      "events": []
+    }
+  ],
+  "children": [
+    {
+      "type": "child",
+      "id": "1777018485475516",
+      "username": "cocuk",
+      "password": "1234",
+      "fullName": "Ali Yılmaz",
+      "age": 12,
+      "parentId": "1777018485471382",
+      "tasks": [],
+      "assignedTasks": [],
+      "events": []
+    }
+  ]
+}

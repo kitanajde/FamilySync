@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "FamilySync - Çalıştır",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "FamilySync",
+            "classPaths": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/lib/gson-2.10.1.jar"
+            ]
+        }
+    ]
+}
