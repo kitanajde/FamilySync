@@ -28,6 +28,7 @@ public class CalendarEvent {
     private LocalDateTime endTime;
     private EventType eventType;
     private boolean isSharedWithFamily; // Aile genelinde görünür mü?
+    private String googleEventId;
 
     public CalendarEvent(String id, String title, String description,
                          LocalDateTime startTime, LocalDateTime endTime,
@@ -77,6 +78,9 @@ public class CalendarEvent {
 
     public boolean isSharedWithFamily() { return isSharedWithFamily; }
     public void setSharedWithFamily(boolean sharedWithFamily) { isSharedWithFamily = sharedWithFamily; }
+
+    public String getGoogleEventId() { return googleEventId; }
+    public void setGoogleEventId(String googleEventId) { this.googleEventId = googleEventId; }
 
     @Override
     public String toString() {

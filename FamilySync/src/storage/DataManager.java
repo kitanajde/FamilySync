@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JSON tabanlı veri yönetimi — GSON YOK, saf Java ile yazılmıştır.
+ * JSON tabanlı veri yönetimi — saf Java ile yazılmıştır.
  * Design Pattern: Singleton
  */
 public class DataManager {
 
-    // Singleton
     private static DataManager instance;
     public static DataManager getInstance() {
         if (instance == null) instance = new DataManager();
@@ -88,31 +87,35 @@ public class DataManager {
     // ================================================================
 
     private String parentToJson(Parent p) {
-        return "    {\n" +
-            "      \"type\": \"parent\",\n" +
-            "      \"id\": \"" + esc(p.getId()) + "\",\n" +
-            "      \"username\": \"" + esc(p.getUsername()) + "\",\n" +
-            "      \"password\": \"" + esc(p.getPassword()) + "\",\n" +
-            "      \"fullName\": \"" + esc(p.getFullName()) + "\",\n" +
-            "      \"childrenIds\": " + stringListToJson(p.getChildrenIds()) + ",\n" +
-            "      \"tasks\": " + tasksToJson(p.getTasks()) + ",\n" +
-            "      \"events\": " + eventsToJson(p.getEvents()) + "\n" +
-            "    }";
+        return "    {\n"
+            + "      \"type\": \"parent\",\n"
+            + "      \"id\": \""          + esc(p.getId())       + "\",\n"
+            + "      \"username\": \""    + esc(p.getUsername()) + "\",\n"
+            + "      \"password\": \""    + esc(p.getPassword()) + "\",\n"
+            + "      \"fullName\": \""    + esc(p.getFullName()) + "\",\n"
+            + "      \"childrenIds\": "   + stringListToJson(p.getChildrenIds()) + ",\n"
+            + "      \"tasks\": "         + tasksToJson(p.getTasks())   + ",\n"
+            + "      \"events\": "        + eventsToJson(p.getEvents()) + ",\n"
+            + "      \"rewardRules\": "   + rewardRulesToJson(p.getRewardRules()) + "\n"
+            + "    }";
     }
 
     private String childToJson(Child c) {
-        return "    {\n" +
-            "      \"type\": \"child\",\n" +
-            "      \"id\": \"" + esc(c.getId()) + "\",\n" +
-            "      \"username\": \"" + esc(c.getUsername()) + "\",\n" +
-            "      \"password\": \"" + esc(c.getPassword()) + "\",\n" +
-            "      \"fullName\": \"" + esc(c.getFullName()) + "\",\n" +
-            "      \"age\": " + c.getAge() + ",\n" +
-            "      \"parentId\": \"" + esc(c.getParentId()) + "\",\n" +
-            "      \"tasks\": " + tasksToJson(c.getTasks()) + ",\n" +
-            "      \"assignedTasks\": " + tasksToJson(c.getAssignedTasks()) + ",\n" +
-            "      \"events\": " + eventsToJson(c.getEvents()) + "\n" +
-            "    }";
+        return "    {\n"
+            + "      \"type\": \"child\",\n"
+            + "      \"id\": \""               + esc(c.getId())       + "\",\n"
+            + "      \"username\": \""          + esc(c.getUsername()) + "\",\n"
+            + "      \"password\": \""          + esc(c.getPassword()) + "\",\n"
+            + "      \"fullName\": \""          + esc(c.getFullName()) + "\",\n"
+            + "      \"age\": "                 + c.getAge()           + ",\n"
+            + "      \"parentId\": \""          + esc(c.getParentId()) + "\",\n"
+            + "      \"points\": "              + c.getPoints()        + ",\n"
+            + "      \"completedTaskCount\": "  + c.getCompletedTaskCount() + ",\n"
+            + "      \"earnedBadges\": "        + stringListToJson(c.getEarnedBadgeNames()) + ",\n"
+            + "      \"tasks\": "               + tasksToJson(c.getTasks())          + ",\n"
+            + "      \"assignedTasks\": "       + tasksToJson(c.getAssignedTasks())  + ",\n"
+            + "      \"events\": "              + eventsToJson(c.getEvents())        + "\n"
+            + "    }";
     }
 
     private String tasksToJson(List<Task> tasks) {
@@ -128,7 +131,8 @@ public class DataManager {
               .append("          \"priority\": \"").append(t.getPriority().name()).append("\",\n")
               .append("          \"dueDate\": \"").append(t.getDueDate() != null ? t.getDueDate().toString() : "").append("\",\n")
               .append("          \"assignedToChildId\": \"").append(esc(t.getAssignedToChildId())).append("\",\n")
-              .append("          \"assignedByParentId\": \"").append(esc(t.getAssignedByParentId())).append("\"\n")
+              .append("          \"assignedByParentId\": \"").append(esc(t.getAssignedByParentId())).append("\",\n")
+              .append("          \"googleEventId\": \"").append(esc(t.getGoogleEventId())).append("\"\n")
               .append("        }");
             if (i < tasks.size() - 1) sb.append(",");
             sb.append("\n");
@@ -148,9 +152,26 @@ public class DataManager {
               .append("          \"startTime\": \"").append(e.getStartTime()).append("\",\n")
               .append("          \"endTime\": \"").append(e.getEndTime()).append("\",\n")
               .append("          \"eventType\": \"").append(e.getEventType().name()).append("\",\n")
-              .append("          \"sharedWithFamily\": ").append(e.isSharedWithFamily()).append("\n")
+              .append("          \"sharedWithFamily\": ").append(e.isSharedWithFamily()).append(",\n")
+              .append("          \"googleEventId\": \"").append(esc(e.getGoogleEventId())).append("\"\n")
               .append("        }");
             if (i < events.size() - 1) sb.append(",");
+            sb.append("\n");
+        }
+        return sb.append("      ]").toString();
+    }
+
+    private String rewardRulesToJson(List<RewardRule> rules) {
+        if (rules == null || rules.isEmpty()) return "[]";
+        StringBuilder sb = new StringBuilder("[\n");
+        for (int i = 0; i < rules.size(); i++) {
+            RewardRule r = rules.get(i);
+            sb.append("        {\n")
+              .append("          \"id\": \"").append(esc(r.getId())).append("\",\n")
+              .append("          \"description\": \"").append(esc(r.getDescription())).append("\",\n")
+              .append("          \"pointThreshold\": ").append(r.getPointThreshold()).append("\n")
+              .append("        }");
+            if (i < rules.size() - 1) sb.append(",");
             sb.append("\n");
         }
         return sb.append("      ]").toString();
@@ -172,7 +193,7 @@ public class DataManager {
     }
 
     // ================================================================
-    // JSON OKUYUCU (saf Java)
+    // JSON OKUYUCU
     // ================================================================
 
     private List<Parent> parseParents(String json) {
@@ -194,6 +215,8 @@ public class DataManager {
                 if (tasksRaw != null) p.setTasks(parseTasks(tasksRaw));
                 String eventsRaw = extractArrayRaw(obj, "events");
                 if (eventsRaw != null) p.setEvents(parseEvents(eventsRaw));
+                String rulesRaw = extractArrayRaw(obj, "rewardRules");
+                if (rulesRaw != null) p.setRewardRules(parseRewardRules(rulesRaw));
                 list.add(p);
             } catch (Exception e) { System.err.println("Parent parse: " + e.getMessage()); }
         }
@@ -216,6 +239,12 @@ public class DataManager {
                     age,
                     extractValue(obj, "parentId")
                 );
+                String pointsStr = extractValue(obj, "points");
+                if (!pointsStr.isEmpty()) { try { c.setPoints(Integer.parseInt(pointsStr)); } catch (Exception ignored) {} }
+                String ctcStr = extractValue(obj, "completedTaskCount");
+                if (!ctcStr.isEmpty()) { try { c.setCompletedTaskCount(Integer.parseInt(ctcStr)); } catch (Exception ignored) {} }
+                String badgesRaw = extractArrayRaw(obj, "earnedBadges");
+                if (badgesRaw != null) c.setEarnedBadgeNames(parseStringArray(badgesRaw));
                 String tasksRaw = extractArrayRaw(obj, "tasks");
                 if (tasksRaw != null) c.setTasks(parseTasks(tasksRaw));
                 String assignedRaw = extractArrayRaw(obj, "assignedTasks");
@@ -251,8 +280,10 @@ public class DataManager {
                 t.setCompleted(Boolean.parseBoolean(extractValue(obj, "completed")));
                 String toChild  = extractValue(obj, "assignedToChildId");
                 String byParent = extractValue(obj, "assignedByParentId");
+                String gEventId = extractValue(obj, "googleEventId");
                 if (!toChild.isEmpty())  t.setAssignedToChildId(toChild);
                 if (!byParent.isEmpty()) t.setAssignedByParentId(byParent);
+                if (!gEventId.isEmpty()) t.setGoogleEventId(gEventId);
                 list.add(t);
             } catch (Exception e) { System.err.println("Task parse: " + e.getMessage()); }
         }
@@ -276,8 +307,26 @@ public class DataManager {
                     type
                 );
                 ev.setSharedWithFamily(Boolean.parseBoolean(extractValue(obj, "sharedWithFamily")));
+                String gid = extractValue(obj, "googleEventId");
+                if (!gid.isEmpty()) ev.setGoogleEventId(gid);
                 list.add(ev);
             } catch (Exception e) { System.err.println("Event parse: " + e.getMessage()); }
+        }
+        return list;
+    }
+
+    private List<RewardRule> parseRewardRules(String arrayContent) {
+        List<RewardRule> list = new ArrayList<>();
+        for (String obj : extractObjects(arrayContent)) {
+            try {
+                int threshold = 0;
+                try { threshold = Integer.parseInt(extractValue(obj, "pointThreshold")); } catch (Exception ignored) {}
+                list.add(new RewardRule(
+                    extractValue(obj, "id"),
+                    extractValue(obj, "description"),
+                    threshold
+                ));
+            } catch (Exception e) { System.err.println("RewardRule parse: " + e.getMessage()); }
         }
         return list;
     }

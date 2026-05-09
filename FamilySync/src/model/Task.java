@@ -30,6 +30,9 @@ public class Task {
     private String assignedToChildId;
     private String assignedByParentId;
 
+    // Google Takvim ile senkronize edilmişse etkinlik ID'si
+    private String googleEventId;
+
     public Task(String id, String title, String description, Priority priority, LocalDate dueDate) {
         this.id = id;
         this.title = title;
@@ -80,6 +83,9 @@ public class Task {
 
     public String getAssignedByParentId() { return assignedByParentId; }
     public void setAssignedByParentId(String assignedByParentId) { this.assignedByParentId = assignedByParentId; }
+
+    public String getGoogleEventId() { return googleEventId; }
+    public void setGoogleEventId(String googleEventId) { this.googleEventId = googleEventId; }
 
     @Override
     public String toString() {
